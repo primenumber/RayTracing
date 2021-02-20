@@ -9,4 +9,4 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-main.o: vec3.hpp color.hpp
+main.o: vec3.hpp color.hpp ray.hpp
