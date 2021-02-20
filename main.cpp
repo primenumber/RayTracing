@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "color.hpp"
+#include "vec3.hpp"
+
 int main() {
   // Image
 
@@ -13,15 +16,8 @@ int main() {
   for (ptrdiff_t j = image_height-1; j >= 0; --j) {
     std::cerr << "\rScanlines ramaining: " << j << ' ' << std::flush;
     for (ptrdiff_t i = 0; i < image_width; ++i) {
-      auto r = double(i) / (image_width-1);
-      auto g = double(j) / (image_height-1);
-      auto b = 0.25;
-
-      uint32_t ir = static_cast<uint32_t>(255.999 * r);
-      uint32_t ig = static_cast<uint32_t>(255.999 * g);
-      uint32_t ib = static_cast<uint32_t>(255.999 * b);
-
-      std::cout << ir << ' ' << ig << ' ' << ib << "\n";
+      color pixel_color(double(i) / (image_width-1), double(j) / (image_height-1), 0.25);
+      write_color(std::cout, pixel_color);
     }
   }
 
