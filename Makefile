@@ -9,6 +9,6 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-main.o: vec3.hpp color.hpp ray.hpp hittable.hpp sphere.hpp hittable_list.hpp
+main.o: vec3.hpp color.hpp ray.hpp hittable.hpp sphere.hpp hittable_list.hpp rtweekend.hpp
 sphere.o: vec3.hpp ray.hpp hittable.hpp sphere.hpp
 hittable_list.o: vec3.hpp ray.hpp hittable.hpp hittable_list.hpp
