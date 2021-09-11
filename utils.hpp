@@ -13,9 +13,9 @@ inline double degrees_to_radians(double degrees) {
 }
 
 inline double random_double() {
-  thread_local std::uniform_real_distribution<double> dis(0.0, 1.0);
   thread_local std::random_device rd;
   thread_local std::minstd_rand gen(rd());
+  std::uniform_real_distribution<double> dis(0.0, 1.0);
   return dis(gen);
 }
 
