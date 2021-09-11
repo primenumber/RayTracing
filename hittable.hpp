@@ -1,10 +1,8 @@
 #ifndef HITTABLE_HPP
 #define HITTABLE_HPP
 
-#include "rtweekend.hpp"
 #include "material.hpp"
-
-class material;
+#include "rtweekend.hpp"
 
 struct hit_record {
   point3 p;
@@ -24,4 +22,4 @@ class hittable {
   virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const = 0;
 };
 
-#endif // HITTABLE_HPP
+#endif  // HITTABLE_HPP

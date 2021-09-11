@@ -1,8 +1,8 @@
 #ifndef RTWEEKEND_HPP
 #define RTWEEKEND_HPP
 
-#include "utils.hpp"
 #include "ray.hpp"
+#include "utils.hpp"
 #include "vec3.hpp"
 
-#endif // RTWEEKEND_HPP
+#endif  // RTWEEKEND_HPP

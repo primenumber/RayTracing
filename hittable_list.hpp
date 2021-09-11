@@ -1,10 +1,10 @@
 #ifndef HITTABLE_LIST_HPP
 #define HITTABLE_LIST_HPP
 
-#include "hittable.hpp"
-
 #include <memory>
 #include <vector>
+
+#include "hittable.hpp"
 
 class hittable_list : public hittable {
  public:
@@ -20,4 +20,4 @@ class hittable_list : public hittable {
   std::vector<std::shared_ptr<hittable>> objects;
 };
 
-#endif // HITTABLE_LIST_HPP
+#endif  // HITTABLE_LIST_HPP

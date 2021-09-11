@@ -1,37 +1,36 @@
 #include <iostream>
 
-#include "rtweekend.hpp"
-
+#include "camera.hpp"
 #include "color.hpp"
 #include "hittable_list.hpp"
-#include "sphere.hpp"
-#include "camera.hpp"
 #include "material.hpp"
+#include "rtweekend.hpp"
+#include "sphere.hpp"
 
 color ray_color(const ray& r, const hittable& world, int32_t depth) {
   hit_record rec;
 
   if (depth <= 0) {
-    return color(0,0,0);
+    return color(0, 0, 0);
   }
 
   if (world.hit(r, 0.001, infinity, rec)) {
     ray scattered;
     color attenuation;
     if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-      return attenuation * ray_color(scattered, world, depth-1);
-    return color(0,0,0);
+      return attenuation * ray_color(scattered, world, depth - 1);
+    return color(0, 0, 0);
   }
   vec3 unit_direction = normalize(r.direction());
   auto t = 0.5 * (unit_direction.y() + 1.0);
-  return (1.0-t) * color(1.0, 1.0, 1.0) + t*color(0.5, 0.7, 1.0);
+  return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
 hittable_list random_scene() {
   hittable_list world;
 
   auto ground_material = std::make_shared<lambertian>(color(0.5, 0.5, 0.5));
-  world.add(std::make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
+  world.add(std::make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
 
   for (int32_t a = -11; a < 11; ++a) {
     for (int32_t b = -11; b < 11; ++b) {
@@ -85,10 +84,10 @@ int main() {
   auto world = random_scene();
 
   // Camera
-  
-  point3 lookfrom(13,2,3);
-  point3 lookat(0,0,0);
-  vec3 vup(0,1,0);
+
+  point3 lookfrom(13, 2, 3);
+  point3 lookat(0, 0, 0);
+  vec3 vup(0, 1, 0);
   auto dist_to_focus = 10.0;
   auto aperture = 0.1;
 
@@ -96,17 +95,17 @@ int main() {
 
   // Render
 
-  std::cout<<"P3\n" << image_width << ' ' << image_height << "\n255\n";
+  std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
-  for (ptrdiff_t j = image_height-1; j >= 0; --j) {
+  for (ptrdiff_t j = image_height - 1; j >= 0; --j) {
     std::cerr << "\rScanlines ramaining: " << j << ' ' << std::flush;
     std::vector<color> output_pixels(image_width);
 #pragma omp parallel for schedule(guided)
     for (ptrdiff_t i = 0; i < image_width; ++i) {
       color pixel_color(0, 0, 0);
       for (size_t s = 0; s < samples_per_pixel; ++s) {
-        auto u = (i + random_double()) / (image_width-1);
-        auto v = (j + random_double()) / (image_height-1);
+        auto u = (i + random_double()) / (image_width - 1);
+        auto v = (j + random_double()) / (image_height - 1);
         ray r = cam.get_ray(u, v);
         pixel_color += ray_color(r, world, max_depth);
       }
