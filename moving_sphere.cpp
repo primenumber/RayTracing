@@ -1,6 +1,6 @@
-#include <cmath>
-
 #include "moving_sphere.hpp"
+
+#include <cmath>
 
 bool moving_sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) const {
   vec3 oc = r.origin() - center(r.time());
@@ -25,6 +25,12 @@ bool moving_sphere::hit(const ray& r, double t_min, double t_max, hit_record& re
   rec.mat_ptr = mat_ptr;
 
   return true;
+}
+
+std::optional<aabb> moving_sphere::bounding_box(double _time0, double _time1) const {
+  aabb box0(center(_time0) - vec3(radius, radius, radius), center(_time0) + vec3(radius, radius, radius));
+  aabb box1(center(_time1) - vec3(radius, radius, radius), center(_time1) + vec3(radius, radius, radius));
+  return surrounding_box(box0, box1);
 }
 
 point3 moving_sphere::center(double time) const {

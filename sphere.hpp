@@ -10,6 +10,7 @@ class sphere : public hittable {
   sphere() {}
   sphere(point3 cen, double r, material_ptr m) : center(cen), radius(r), mat_ptr(m) {}
   virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override;
+  virtual std::optional<aabb> bounding_box(double time0, double time1) const override;
 
  private:
   point3 center;

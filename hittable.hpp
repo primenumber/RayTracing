@@ -1,6 +1,9 @@
 #ifndef HITTABLE_HPP
 #define HITTABLE_HPP
 
+#include <optional>
+
+#include "aabb.hpp"
 #include "material.hpp"
 #include "rtweekend.hpp"
 
@@ -20,6 +23,7 @@ struct hit_record {
 class hittable {
  public:
   virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+  virtual std::optional<aabb> bounding_box(double time0, double time1) const = 0;
 };
 
 #endif  // HITTABLE_HPP

@@ -1,6 +1,6 @@
 CXXFLAGS:=-std=c++17 -Og -g -march=native -Wall -Wextra -fopenmp -MMD -MP
 TARGET:=rtiow
-SRCS:=main.cpp sphere.cpp hittable_list.cpp material.cpp moving_sphere.cpp
+SRCS:=main.cpp sphere.cpp hittable_list.cpp material.cpp moving_sphere.cpp aabb.cpp bvh.cpp
 OBJS:=$(SRCS:%.cpp=%.o)
 DEPS:=$(SRCS:%.cpp=%.d)
 
