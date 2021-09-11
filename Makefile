@@ -1,4 +1,4 @@
-CXXFLAGS:=-std=c++17 -Og -Wall -Wextra
+CXXFLAGS:=-std=c++17 -O3 -march=native -Wall -Wextra -fopenmp
 TARGET:=rtiow
 SRCS:=main.cpp sphere.cpp hittable_list.cpp material.cpp
 OBJS:=$(SRCS:%.cpp=%.o)

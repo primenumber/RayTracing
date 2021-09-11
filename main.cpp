@@ -100,6 +100,8 @@ int main() {
 
   for (ptrdiff_t j = image_height-1; j >= 0; --j) {
     std::cerr << "\rScanlines ramaining: " << j << ' ' << std::flush;
+    std::vector<color> output_pixels(image_width);
+#pragma omp parallel for schedule(guided)
     for (ptrdiff_t i = 0; i < image_width; ++i) {
       color pixel_color(0, 0, 0);
       for (size_t s = 0; s < samples_per_pixel; ++s) {
@@ -108,7 +110,10 @@ int main() {
         ray r = cam.get_ray(u, v);
         pixel_color += ray_color(r, world, max_depth);
       }
-      write_color(std::cout, pixel_color, samples_per_pixel);
+      output_pixels[i] = pixel_color;
+    }
+    for (ptrdiff_t i = 0; i < image_width; ++i) {
+      write_color(std::cout, output_pixels[i], samples_per_pixel);
     }
   }
 
