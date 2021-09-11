@@ -1,3 +1,4 @@
 rtiow
 *.o
+*.d
 outputs
