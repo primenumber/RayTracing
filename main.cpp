@@ -106,23 +106,23 @@ int main() {
 
   std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
-  for (ptrdiff_t j = image_height - 1; j >= 0; --j) {
-    std::cerr << "\rScanlines ramaining: " << j << ' ' << std::flush;
-    std::vector<color> output_pixels(image_width);
+  ptrdiff_t image_size = image_height * image_width;
+  std::vector<color> output_pixels(image_size);
 #pragma omp parallel for schedule(guided)
-    for (ptrdiff_t i = 0; i < image_width; ++i) {
-      color pixel_color(0, 0, 0);
-      for (size_t s = 0; s < samples_per_pixel; ++s) {
-        auto u = (i + random_double()) / (image_width - 1);
-        auto v = (j + random_double()) / (image_height - 1);
-        ray r = cam.get_ray(u, v);
-        pixel_color += ray_color(r, world, max_depth);
-      }
-      output_pixels[i] = pixel_color;
+  for (ptrdiff_t i = 0; i < image_size; ++i) {
+    ptrdiff_t row = image_height - i / image_width - 1;
+    ptrdiff_t col = i % image_width;
+    color pixel_color(0, 0, 0);
+    for (size_t s = 0; s < samples_per_pixel; ++s) {
+      auto u = (col + random_double()) / (image_width - 1);
+      auto v = (row + random_double()) / (image_height - 1);
+      ray r = cam.get_ray(u, v);
+      pixel_color += ray_color(r, world, max_depth);
     }
-    for (ptrdiff_t i = 0; i < image_width; ++i) {
-      write_color(std::cout, output_pixels[i], samples_per_pixel);
-    }
+    output_pixels[i] = pixel_color;
+  }
+  for (ptrdiff_t i = 0; i < image_size; ++i) {
+    write_color(std::cout, output_pixels[i], samples_per_pixel);
   }
 
   std::cerr << "\nDone.\n";
