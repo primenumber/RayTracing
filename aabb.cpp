@@ -1,15 +1,15 @@
 #include "aabb.hpp"
 
 bool aabb::hit(const ray& r, double t_min, double t_max) const {
+  auto invD = 1.0 / r.direction();
+  auto t0 = (min() - r.origin()) * invD;
+  auto t1 = (max() - r.origin()) * invD;
   for (size_t a = 0; a < 3; ++a) {
-    auto invD = 1.0 / r.direction()[a];
-    auto t0 = (min()[a] - r.origin()[a]) * invD;
-    auto t1 = (max()[a] - r.origin()[a]) * invD;
-    if (invD < 0.0) {
-      std::swap(t0, t1);
+    if (invD[a] < 0.0) {
+      std::swap(t0[a], t1[a]);
     }
-    t_min = std::max(t0, t_min);
-    t_max = std::min(t1, t_max);
+    t_min = std::max(t0[a], t_min);
+    t_max = std::min(t1[a], t_max);
     if (t_max <= t_min) return false;
   }
   return true;

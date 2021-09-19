@@ -81,6 +81,10 @@ inline vec3 operator*(const vec3& lhs, const double rhs) { return rhs * lhs; }
 
 inline vec3 operator/(const vec3& lhs, const double rhs) { return (1. / rhs) * lhs; }
 
+inline vec3 operator/(const double lhs, const vec3& rhs) {
+  return vec3(lhs / rhs.e[0], lhs / rhs.e[1], lhs / rhs.e[2]);
+}
+
 inline double dot(const vec3& lhs, const vec3& rhs) {
   return lhs.e[0] * rhs.e[0] + lhs.e[1] * rhs.e[1] + lhs.e[2] * rhs.e[2];
 }
