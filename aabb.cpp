@@ -5,14 +5,10 @@ bool aabb::hit(const ray& r, double t_min, double t_max) const {
   auto t0 = (min() - r.origin()) * invD;
   auto t1 = (max() - r.origin()) * invD;
   for (size_t a = 0; a < 3; ++a) {
-    if (invD[a] < 0.0) {
-      std::swap(t0[a], t1[a]);
-    }
-    t_min = std::max(t0[a], t_min);
-    t_max = std::min(t1[a], t_max);
-    if (t_max <= t_min) return false;
+    t_min = std::max(std::min(t0[a], t1[a]), t_min);
+    t_max = std::min(std::max(t0[a], t1[a]), t_max);
   }
-  return true;
+  return t_max > t_min;
 }
 
 aabb surrounding_box(const aabb& box0, const aabb& box1) {
