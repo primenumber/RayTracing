@@ -100,7 +100,13 @@ inline vec3 random_in_unit_sphere() {
   }
 }
 
-inline vec3 random_unit_vector() { return normalize(random_in_unit_sphere()); }
+inline vec3 random_unit_vector() {
+  static double tau = 2.0 * std::acos(-1.0);
+  auto y = random_double(-1, 1);
+  auto r = std::sqrt(1.0 - y*y);
+  auto theta = random_double(0, tau);
+  return vec3(r * cos(theta), y, r * sin(theta));
+}
 
 inline vec3 random_in_hemisphere(const vec3& normal) {
   vec3 in_unit_sphere = random_in_unit_sphere();
