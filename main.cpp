@@ -90,7 +90,7 @@ int main() {
 
   // World
 
-  auto world = random_scene();
+  auto world = bvh_node(random_scene(), 0.0, 1.0);
 
   // Camera
 
